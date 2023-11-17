@@ -2,7 +2,7 @@ from flask import Flask, request, abort
 
 import json,urllib.request
 import spacy
-
+import os
 from linebot.v3 import (
     WebhookHandler
 )
@@ -27,15 +27,15 @@ from linebot.v3.webhooks import (
 
 app = Flask(__name__)
 
-myT='YOUR_CHANNEL_ACCESS_TOKEN'
-myC='YOUR_CHANNEL_SECRET'
+myT=os.getenv("LINE_CHANNEL_ACCESS_TOKEN")
+myC=os.getenv("LINE_CHANNEL_SECRET")
 configuration = Configuration(access_token=myT)
 handler = WebhookHandler(myC)
 
 ansA=[]
 city=''
 nlp = spacy.load('zh_core_web_md')
-url = 'https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=API授權碼&format=JSON'
+url = 'https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=',os.getenv("YOUR_API"),'&format=JSON'
   
 
 @app.route("/callback", methods=['POST'])
